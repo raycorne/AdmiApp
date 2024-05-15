@@ -1,0 +1,232 @@
+﻿@page "/"
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="title">
+                    Предметы
+                    <div class="devider">
+                        <hr />
+                    </div>
+                </div>
+                <div>
+                    <MudCheckBox @bind-Value="@Basic_CheckBox1" Color="Color.Primary" Label="Матеша"></MudCheckBox>
+                    <MudCheckBox @bind-Value="@Basic_CheckBox2" Color="Color.Primary" Label="Русский"></MudCheckBox>
+                    <MudCheckBox @bind-Value="@Basic_CheckBox3" Color="Color.Primary" Label="Физика"></MudCheckBox>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    Информация о вузе
+                    <div class="devider">
+                        <hr />
+                    </div>
+                </div>
+                <div class="col-12 col-md-6" style="padding: 10px 20px;">
+                    <MudSelect T="Region" Label="Область" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@(new Region("Минск"))" />
+                        <MudSelectItem Value="@(new Region("Минская"))" />
+                        <MudSelectItem Value="@(new Region("Литва"))" />
+                    </MudSelect>
+                </div>
+                <div class="col-12 col-md-6" style="padding: 10px 20px;">
+                    <MudSelect T="TypeOfInst" Label="Тип учебного заведения" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@(new TypeOfInst("ВУЗ/ССУЗ"))" />
+                        <MudSelectItem Value="@(new TypeOfInst("ВУЗ"))" />
+                        <MudSelectItem Value="@(new TypeOfInst("ССУЗ"))" />
+                    </MudSelect>
+                </div>
+                <div class="col-12 col-md-6" style="padding: 10px 20px;">
+                    <MudSelect T="EducationForm" Label="Форма обучения" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@(new EducationForm("Все"))" />
+                        <MudSelectItem Value="@(new EducationForm("Дневная"))" />
+                        <MudSelectItem Value="@(new EducationForm("Заочная"))" />
+                        <MudSelectItem Value="@(new EducationForm("Дистанционная"))" />
+                    </MudSelect>
+                </div>
+                <div class="col-12 col-md-6" style="padding: 10px 20px;">
+                    <MudSelect T="PayForm" Label="Форма оплаты" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@(new PayForm("Все"))" />
+                        <MudSelectItem Value="@(new PayForm("Бюджет"))" />
+                        <MudSelectItem Value="@(new PayForm("Платная"))" />
+                    </MudSelect>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    Баллы
+                    <div class="devider">
+                        <hr />
+                    </div>
+                </div>
+                <div style="padding: 10px 20px;">
+                    <MudRadioGroup @bind-Value="@Score">
+                        <div class="row">
+                            <div class="col-6">
+                                <MudRadio Value="@("none")" Color="Color.Primary">Не важно</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("98-100")" Color="Color.Primary">98-100</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("101-125")" Color="Color.Primary">101-125</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("126-150")" Color="Color.Primary">126-150</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("151-175")" Color="Color.Primary">151-175</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("176-200")" Color="Color.Primary">176-200</MudRadio>
+
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("201-225")" Color="Color.Primary">201-225</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("226-250")" Color="Color.Primary">201-225</MudRadio>
+                            </div>
+                            <div class="col-6">
+                                <MudRadio Value="@("228-1488")" Color="Color.Primary">228-1488</MudRadio>
+                            </div>
+                        </div>
+                    </MudRadioGroup>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title">
+                    Общежитие
+                    <div class="devider">
+                        <hr />
+                    </div>
+                </div>
+                <div style="padding: 10px 20px;">
+                    <MudRadioGroup @bind-Value="@Dormitory">
+                        <div class="row">
+                            <div class="col-12">
+                                <MudRadio Value="@("none")" Color="Color.Primary">Не важно</MudRadio>
+                            </div>
+                            <div class="col-12">
+                                <MudRadio Value="@("all")" Color="Color.Primary">Да, всем</MudRadio>
+                            </div>
+                            <div class="col-12">
+                                <MudRadio Value="@("rules")" Color="Color.Primary">Не всем, в соответствии с правилами</MudRadio>
+                            </div>
+                            <div class="col-12">
+                                <MudRadio Value="@("nobody")" Color="Color.Primary">Не предоставляет</MudRadio>
+                            </div>
+                        </div>
+                        
+                    </MudRadioGroup>
+                </div>
+            </div>
+
+            <div class="submit_button">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary">Погнали</MudButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    public bool Basic_CheckBox1 { get; set; } = true;
+    public bool Basic_CheckBox2 { get; set; } = false;
+    public bool Basic_CheckBox3 { get; set; } = false;
+
+    public string? Score { get; set; }
+    public string? Dormitory { get; set; }
+
+    public class Region
+    {
+        public Region(string name)
+        {
+            Name = name;
+        }
+
+        public readonly string Name;
+
+        // Note: this is important so the MudSelect can compare pizzas
+        public override bool Equals(object o)
+        {
+            var other = o as Region;
+            return other?.Name == Name;
+        }
+
+        // Note: this is important too!
+        public override int GetHashCode() => Name?.GetHashCode() ?? 0;
+
+        // Implement this for the Pizza to display correctly in MudSelect
+        public override string ToString() => Name;
+    }
+
+    public class TypeOfInst
+    {
+        public TypeOfInst(string name)
+        {
+            Name = name;
+        }
+
+        public readonly string Name;
+
+        // Note: this is important so the MudSelect can compare pizzas
+        public override bool Equals(object o)
+        {
+            var other = o as TypeOfInst;
+            return other?.Name == Name;
+        }
+
+        // Note: this is important too!
+        public override int GetHashCode() => Name?.GetHashCode() ?? 0;
+
+        // Implement this for the Pizza to display correctly in MudSelect
+        public override string ToString() => Name;
+    }
+
+    public class EducationForm
+    {
+        public EducationForm(string name)
+        {
+            Name = name;
+        }
+
+        public readonly string Name;
+
+        // Note: this is important so the MudSelect can compare pizzas
+        public override bool Equals(object o)
+        {
+            var other = o as EducationForm;
+            return other?.Name == Name;
+        }
+
+        // Note: this is important too!
+        public override int GetHashCode() => Name?.GetHashCode() ?? 0;
+
+        // Implement this for the Pizza to display correctly in MudSelect
+        public override string ToString() => Name;
+    }
+
+    public class PayForm
+    {
+        public PayForm(string name)
+        {
+            Name = name;
+        }
+
+        public readonly string Name;
+
+        // Note: this is important so the MudSelect can compare pizzas
+        public override bool Equals(object o)
+        {
+            var other = o as PayForm;
+            return other?.Name == Name;
+        }
+
+        // Note: this is important too!
+        public override int GetHashCode() => Name?.GetHashCode() ?? 0;
+
+        // Implement this for the Pizza to display correctly in MudSelect
+        public override string ToString() => Name;
+    }
+}

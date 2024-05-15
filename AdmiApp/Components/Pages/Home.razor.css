@@ -1,0 +1,33 @@
+﻿.card {
+    padding: 5px 10px;
+    margin: 20px 0px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    /*outline: 1px solid */
+    border-radius: 15px;
+}
+
+.card .title{
+    margin: 7px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.card .devider {
+    padding: 10px 0px 0px 0px;
+    width: 90%;
+}
+
+.card hr{
+    margin: 0px;
+}
+
+.submit_button {
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
