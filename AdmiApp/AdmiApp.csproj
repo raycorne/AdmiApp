@@ -58,11 +58,27 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Remove="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="MudBlazor" Version="6.19.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AdmiApp.Appl\AdmiApp.Appl.csproj" />
+      <ProjectReference Include="..\AdmiApp.Core\AdmiApp.Core.csproj" />
+      <ProjectReference Include="..\AdmiApp.Infrastructure\AdmiApp.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

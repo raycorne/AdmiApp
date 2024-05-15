@@ -1,0 +1,100 @@
+﻿@page "/university-info"
+
+@using AdmiApp.Appl.Interfaces
+@using AdmiApp.Core.DTO
+@using AdmiApp.Models
+
+@inject CurentSpecialityInfo curentSpecialityInfo;
+@inject IUniversityService universityService;
+
+@if (isLoaded)
+{
+    <div class="card">
+        <div class="title">
+            Информация
+            <div class="devider">
+                <hr />
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3>@info.UniversityName</h3>
+                </div>
+                <div class="col-12">
+                    <p>@info.UniversityDescription</p>
+                </div>
+                <div class="col-12">
+                    <a>Ссылка на сайт: @info.UniversityLink</a>
+                </div>
+                <div class="col-12">
+                    <p>Факультет: @info.FacultyName</p>
+                </div>
+                <div class="col-12">
+                    <p>Адрес: @info.Town_name</p>
+                </div>
+                <br />
+                <div class="col-12">
+                    <p>Специальность: @info.SpecialityInfo.SpecialityName</p>
+                </div>
+                <div class="col-12">
+                    <p>Бюджетный балл: @info.SpecialityInfo.PassingScore</p>
+                </div>
+                <div class="col-12">
+                    <p>Балл на платной основе: @info.SpecialityInfo.PassingScoreValueDayForMoney</p>
+                </div>
+                <div class="col-12">
+                    <p>Телефон: @info.ComissionNumberInfo.ComissionNumber</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else{
+    <div class="card">
+        <div class="title">
+            Информация
+            <div class="devider">
+                <hr />
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Хуй соси, губой тряси</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@code {
+    UniversityInfoDTO info;
+
+    bool isLoaded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoaded = false;
+        info = new UniversityInfoDTO();
+
+        var queryString = $"universityName={Uri.EscapeDataString(curentSpecialityInfo.UniversityName)}&facultyName={Uri.EscapeDataString(curentSpecialityInfo.FacultyName)}&specialityName={Uri.EscapeDataString(curentSpecialityInfo.SpecialityName)}";
+
+        var response = await universityService.GetUniversityInfo(queryString);
+
+        info = response;
+
+
+        if (info != null)
+        {
+            isLoaded = true;
+        }
+        else
+        {
+            await App.Current.MainPage.DisplayAlert("Пошел нахуй", "Хуй соси, губой тряси", "Понял");
+
+        }
+    }
+}

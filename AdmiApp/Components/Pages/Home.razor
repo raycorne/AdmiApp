@@ -1,4 +1,12 @@
 ﻿@page "/"
+@using AdmiApp.Appl.Interfaces
+@using AdmiApp.Core.DTO
+@using AdmiApp.Models
+
+@inject IExamService examService;
+@inject IUniversityService universityService;
+@inject NavigationManager NavManager;
+@inject CurentSpecialityInfo curentSpecialityInfo;
 
 <div class="container">
     <div class="row">
@@ -11,12 +19,150 @@
                     </div>
                 </div>
                 <div>
-                    <MudCheckBox @bind-Value="@Basic_CheckBox1" Color="Color.Primary" Label="Матеша"></MudCheckBox>
-                    <MudCheckBox @bind-Value="@Basic_CheckBox2" Color="Color.Primary" Label="Русский"></MudCheckBox>
-                    <MudCheckBox @bind-Value="@Basic_CheckBox3" Color="Color.Primary" Label="Физика"></MudCheckBox>
+                    @if(Exams != null && Exams.Count > 0)
+                    {
+                        @foreach(var exam in Exams)
+                        {
+                            <MudCheckBox @bind-Value="@exam.IsChecked" Color="Color.Primary" Label="@exam.ExamName"></MudCheckBox>
+                        }
+                    }
+
                 </div>
             </div>
+
             <div class="card">
+                <div class="title">
+                    Баллы
+                    <div class="devider">
+                        <hr />
+                    </div>
+                </div>
+                <div style="padding: 10px 20px;">
+                    <MudTextField ShrinkLabel @bind-Value="Score" Label="Баллы" Variant="Variant.Text"></MudTextField>
+                </div>
+            </div>
+            <div class="submit_button">
+                <MudButton OnClick="GetUniversitiesList" Variant="Variant.Filled" Color="Color.Primary">Погнали</MudButton>
+            </div>
+            @if(Universities != null && Universities.Count > 0)
+            {
+                <div class="card">
+                    <div class="title">
+                        Уники
+                        <div class="devider">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <MudTreeView T="string" ExpandOnClick="true">
+                    @foreach(var univer in Universities)
+                    {
+                        <MudTreeViewItem Value="@(@univer.UniversityName)">
+                        @foreach(var faculty in univer.Faculties)
+                        {
+                            <MudTreeViewItem Value="@(@faculty.FacultyName)">
+                            @foreach(var spec in faculty.Specialties)
+                            {
+                                <MudTreeViewItem OnClick="() => {GoToUniversityPage(univer.UniversityName, faculty.FacultyName, spec.SpecialtyName);}" Value="@(@spec.SpecialtyName)" />
+                            }
+                            </MudTreeViewItem>
+                        }
+
+                        </MudTreeViewItem>
+                    }
+                    </MudTreeView>
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>
+
+@code{
+    public bool Basic_CheckBox1 { get; set; } = true;
+    public bool Basic_CheckBox2 { get; set; } = false;
+    public bool Basic_CheckBox3 { get; set; } = false;
+    private List<ExamModel> Exams;
+
+    private List<UniversityAdmissionResponseDTO> Universities;
+
+
+    public string? Score { get; set; }
+    public string? Dormitory { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Exams = new List<ExamModel>();
+
+        var examsResponse = await examService.GetAllExams();
+
+        if (examsResponse.IsSuccess && examsResponse.Content != null)
+        {
+            var examsData = examsResponse.Content;
+            foreach(var exam in examsData)
+            {
+                Exams.Add(new ExamModel
+                    {
+                        IsChecked = false,
+                        ExamName = exam.Exams_Name,
+                        ExamId = exam.Id
+                    });
+            }
+        }
+        else
+        {
+            await App.Current.MainPage.DisplayAlert("Пошел нахуй", "Хуй соси, губой тряси", "Понял");
+        }
+    }
+
+    private async Task GetUniversitiesList()
+    {
+        var checkedExams = new List<string>();
+        foreach (var exam in Exams)
+        {
+            if (exam.IsChecked == true)
+            {
+                if (exam.ExamName != null)
+                    checkedExams.Add(exam.ExamName);
+            }
+        }
+
+        int? score = null;
+        if (!string.IsNullOrEmpty(Score))
+        {
+            score = Int32.Parse(Score);
+        }
+
+        var queryString = new List<string>();
+        foreach (var subject in checkedExams)
+        {
+            queryString.Add($"subjectNames={Uri.EscapeDataString(subject)}");
+        }
+        if (score.HasValue)
+        {
+            queryString.Add($"passingScore={score.Value}");
+        }
+        var query = string.Join("&", queryString);
+
+        Universities = await universityService.GetUniversitiesList(query);
+        if (Universities == null || Universities.Count <= 0)
+        {
+            await App.Current.MainPage.DisplayAlert("Пошел нахуй", "Хуй соси, губой тряси", "Понял");
+        }
+    }
+
+    private void GoToUniversityPage(string universityName, string facultyName, string specialityName)
+    {
+        curentSpecialityInfo.UniversityName = universityName;
+        curentSpecialityInfo.FacultyName = facultyName;
+        curentSpecialityInfo.SpecialityName = specialityName;
+
+        NavManager.NavigateTo("/university-info");
+    }
+}
+
+@* 
+                    <div class="card">
                 <div class="title">
                     Информация о вузе
                     <div class="devider">
@@ -52,93 +198,10 @@
                         <MudSelectItem Value="@(new PayForm("Платная"))" />
                     </MudSelect>
                 </div>
-            </div>
-            <div class="card">
-                <div class="title">
-                    Баллы
-                    <div class="devider">
-                        <hr />
-                    </div>
-                </div>
-                <div style="padding: 10px 20px;">
-                    <MudRadioGroup @bind-Value="@Score">
-                        <div class="row">
-                            <div class="col-6">
-                                <MudRadio Value="@("none")" Color="Color.Primary">Не важно</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("98-100")" Color="Color.Primary">98-100</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("101-125")" Color="Color.Primary">101-125</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("126-150")" Color="Color.Primary">126-150</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("151-175")" Color="Color.Primary">151-175</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("176-200")" Color="Color.Primary">176-200</MudRadio>
+            </div> *@
 
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("201-225")" Color="Color.Primary">201-225</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("226-250")" Color="Color.Primary">201-225</MudRadio>
-                            </div>
-                            <div class="col-6">
-                                <MudRadio Value="@("228-1488")" Color="Color.Primary">228-1488</MudRadio>
-                            </div>
-                        </div>
-                    </MudRadioGroup>
-                </div>
-            </div>
-            <div class="card">
-                <div class="title">
-                    Общежитие
-                    <div class="devider">
-                        <hr />
-                    </div>
-                </div>
-                <div style="padding: 10px 20px;">
-                    <MudRadioGroup @bind-Value="@Dormitory">
-                        <div class="row">
-                            <div class="col-12">
-                                <MudRadio Value="@("none")" Color="Color.Primary">Не важно</MudRadio>
-                            </div>
-                            <div class="col-12">
-                                <MudRadio Value="@("all")" Color="Color.Primary">Да, всем</MudRadio>
-                            </div>
-                            <div class="col-12">
-                                <MudRadio Value="@("rules")" Color="Color.Primary">Не всем, в соответствии с правилами</MudRadio>
-                            </div>
-                            <div class="col-12">
-                                <MudRadio Value="@("nobody")" Color="Color.Primary">Не предоставляет</MudRadio>
-                            </div>
-                        </div>
-                        
-                    </MudRadioGroup>
-                </div>
-            </div>
 
-            <div class="submit_button">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary">Погнали</MudButton>
-            </div>
-        </div>
-    </div>
-</div>
-
-@code{
-    public bool Basic_CheckBox1 { get; set; } = true;
-    public bool Basic_CheckBox2 { get; set; } = false;
-    public bool Basic_CheckBox3 { get; set; } = false;
-
-    public string? Score { get; set; }
-    public string? Dormitory { get; set; }
-
-    public class Region
+                @* public class Region
     {
         public Region(string name)
         {
@@ -228,5 +291,4 @@
 
         // Implement this for the Pizza to display correctly in MudSelect
         public override string ToString() => Name;
-    }
-}
+    } *@

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdmiApp", "AdmiApp\AdmiApp.csproj", "{70327A98-7FCB-49D9-80FF-A5700812AF72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdmiApp", "AdmiApp\AdmiApp.csproj", "{70327A98-7FCB-49D9-80FF-A5700812AF72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdmiApp.Core", "AdmiApp.Core\AdmiApp.Core.csproj", "{F1A49058-6E6D-48CF-AAA5-E07120296988}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdmiApp.Appl", "AdmiApp.Appl\AdmiApp.Appl.csproj", "{A0BB8647-66F3-413C-82B6-208D7050338F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdmiApp.Infrastructure", "AdmiApp.Infrastructure\AdmiApp.Infrastructure.csproj", "{704BAB02-EA64-4137-BABE-D1C0E57007CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +23,18 @@ Global
 		{70327A98-7FCB-49D9-80FF-A5700812AF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70327A98-7FCB-49D9-80FF-A5700812AF72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70327A98-7FCB-49D9-80FF-A5700812AF72}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F1A49058-6E6D-48CF-AAA5-E07120296988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1A49058-6E6D-48CF-AAA5-E07120296988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1A49058-6E6D-48CF-AAA5-E07120296988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1A49058-6E6D-48CF-AAA5-E07120296988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0BB8647-66F3-413C-82B6-208D7050338F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0BB8647-66F3-413C-82B6-208D7050338F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0BB8647-66F3-413C-82B6-208D7050338F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0BB8647-66F3-413C-82B6-208D7050338F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704BAB02-EA64-4137-BABE-D1C0E57007CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704BAB02-EA64-4137-BABE-D1C0E57007CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704BAB02-EA64-4137-BABE-D1C0E57007CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704BAB02-EA64-4137-BABE-D1C0E57007CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
