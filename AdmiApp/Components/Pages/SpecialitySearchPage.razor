@@ -1,0 +1,84 @@
+﻿@page "/speciality-search"
+@using AdmiApp.Appl.Interfaces
+@using AdmiApp.Core.DTO
+@using AdmiApp.Models
+
+@inject IUniversityService universityService;
+@inject CurrentSpecialityInfo currentSpecialityInfo;
+
+@inject NavigationManager NavManager;
+
+<MudTextField @bind-Value="_universityName" Label="Поиск" Variant="Variant.Outlined" OnAdornmentClick="Search" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Secondary" />
+
+@if (Universities != null && Universities.Count > 0)
+{
+	<div class="card">
+
+		<MudTreeView T="string" ExpandOnClick="true">
+			@foreach (var univer in Universities)
+			{
+				<MudTreeViewItem Value="@(@univer.UniversityName)">
+					@foreach (var faculty in univer.Faculties)
+					{
+						<MudTreeViewItem Value="@(@faculty.FacultyName)">
+							@foreach (var spec in faculty.Specialties)
+						{
+							<MudTreeViewItem OnClick="() => {GoToUniversityPage(univer.UniversityName, faculty.FacultyName, spec.SpecialtyName);}" Value="@(@spec.SpecialtyName)" />
+						}
+					</MudTreeViewItem>
+					}
+
+				</MudTreeViewItem>
+			}
+		</MudTreeView>
+	</div>
+}
+
+@code {
+
+	private string _universityName = "";
+	private List<UniversityAdmissionResponseDTO> Universities;
+
+	List<string> universitiesNames = new();
+
+	public bool _isOpen = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var response = await universityService.GetAllUniversitiesNames();
+		if (response.IsSuccess && response.Content != null)
+			universitiesNames = response.Content;
+		else
+			await App.Current.MainPage.DisplayAlert("Ошибка", "Ошибка при получении списка университетов", "ОК");
+
+	}
+
+	public void SetUniversityName(ChangeEventArgs __e)
+	{
+		_universityName = __e.Value?.ToString()!;
+	}
+
+	public async void Search()
+	{
+		var query = $"searchTerm={Uri.EscapeDataString(_universityName)}";
+		Universities = await universityService.GetUniversitiesListBySpeciality(query);
+
+		if (Universities == null || Universities.Count <= 0)
+		{
+			await App.Current.MainPage.DisplayAlert("Ошибка", "Ошибка при получении списка университетов", "ОК");
+		}
+		else
+		{
+			StateHasChanged();
+		}
+	}
+
+	private void GoToUniversityPage(string universityName, string facultyName, string specialityName)
+	{
+		currentSpecialityInfo.UniversityName = universityName;
+		currentSpecialityInfo.FacultyName = facultyName;
+		currentSpecialityInfo.SpecialityName = specialityName;
+
+		NavManager.NavigateTo("/university-info");
+	}
+}

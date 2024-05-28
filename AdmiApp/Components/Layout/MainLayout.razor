@@ -5,6 +5,7 @@
 <MudSnackbarProvider />
 
 <MudLayout>
+    <BottomNavMenu/>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" Href="/" />
         @* <MudSpacer />
@@ -14,7 +15,9 @@
         <MyNavMenu/>
     </MudDrawer> *@
     <MudMainContent>
-        @Body
+        <div style="margin-bottom: 50px;">
+            @Body
+        </div>
     </MudMainContent>
 </MudLayout>
 @code {

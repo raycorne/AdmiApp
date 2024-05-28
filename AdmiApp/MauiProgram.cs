@@ -27,7 +27,7 @@ namespace AdmiApp
                         .Build();
             builder.Configuration.AddConfiguration(config);
 
-            builder.Services.AddSingleton<CurentSpecialityInfo>();
+            builder.Services.AddSingleton<CurrentSpecialityInfo>();
 
             builder.Services.AddMauiBlazorWebView();
 

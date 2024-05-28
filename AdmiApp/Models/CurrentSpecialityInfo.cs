@@ -2,7 +2,7 @@
 
 namespace AdmiApp.Models
 {
-    public class CurentSpecialityInfo
+    public class CurrentSpecialityInfo
     {
         public string UniversityName { get; set; } = null!;
         public string FacultyName { get; set; } = null!;

@@ -53,5 +53,56 @@ namespace AdmiApp.Infrastructure.Services
             return returnResponse;
         }
 
-    }
+        public async Task<List<UniversityAdmissionResponseDTO>> GetUniversitiesListByName(string name)
+        {
+            var returnResponse = new List<UniversityAdmissionResponseDTO>();
+            using (var client = new HttpClient())
+            {
+                var url = $"{_baseUrl}{APIs.GetUniversitiesByInfo}?{name}";
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string contentStr = await response.Content.ReadAsStringAsync();
+                    returnResponse = JsonConvert.DeserializeObject<List<UniversityAdmissionResponseDTO>>(contentStr);
+                }
+            }
+
+            return returnResponse;
+        }
+
+		public async Task<List<UniversityAdmissionResponseDTO>> GetUniversitiesListBySpeciality(string speciality)
+		{
+			var returnResponse = new List<UniversityAdmissionResponseDTO>();
+			using (var client = new HttpClient())
+			{
+				var url = $"{_baseUrl}{APIs.GetAllUniversitiesBySpeciality}?{speciality}";
+				var response = await client.GetAsync(url);
+				if (response.IsSuccessStatusCode)
+				{
+					string contentStr = await response.Content.ReadAsStringAsync();
+					returnResponse = JsonConvert.DeserializeObject<List<UniversityAdmissionResponseDTO>>(contentStr);
+				}
+			}
+
+			return returnResponse;
+		}
+
+		public async Task<MainListStringResponse> GetAllUniversitiesNames()
+		{
+			var returnResponse = new MainListStringResponse();
+			using (var client = new HttpClient())
+			{
+				var url = $"{_baseUrl}{APIs.GetAllUniversitiesNames}";
+				var response = await client.GetAsync(url);
+				if (response.IsSuccessStatusCode)
+				{
+					string contentStr = await response.Content.ReadAsStringAsync();
+					returnResponse = JsonConvert.DeserializeObject<MainListStringResponse>(contentStr);
+				}
+			}
+
+			return returnResponse;
+		}
+
+	}
 }

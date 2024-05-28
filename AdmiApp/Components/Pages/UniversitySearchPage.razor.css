@@ -25,11 +25,9 @@
         margin: 0px;
     }
 
-.main_container {
-    position: fixed;
-    top: 60px;
-    left: 0px;
-    height: calc(100vh - 60px);
-    width: 100%;
+.submit_button {
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-

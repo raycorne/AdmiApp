@@ -1,4 +1,5 @@
 ﻿@page "/"
+
 @using AdmiApp.Appl.Interfaces
 @using AdmiApp.Core.DTO
 @using AdmiApp.Models
@@ -6,7 +7,7 @@
 @inject IExamService examService;
 @inject IUniversityService universityService;
 @inject NavigationManager NavManager;
-@inject CurentSpecialityInfo curentSpecialityInfo;
+@inject CurrentSpecialityInfo currentSpecialityInfo;
 
 <div class="container">
     <div class="row">
@@ -111,7 +112,7 @@
         }
         else
         {
-            await App.Current.MainPage.DisplayAlert("Пошел нахуй", "Хуй соси, губой тряси", "Понял");
+            await App.Current.MainPage.DisplayAlert("Ошибка", "Ошибка при получении списка университетов", "ОК");
         }
     }
 
@@ -147,15 +148,15 @@
         Universities = await universityService.GetUniversitiesList(query);
         if (Universities == null || Universities.Count <= 0)
         {
-            await App.Current.MainPage.DisplayAlert("Пошел нахуй", "Хуй соси, губой тряси", "Понял");
+            await App.Current.MainPage.DisplayAlert("Ошибка", "Ошибка при получении списка университетов", "ОК");
         }
     }
 
     private void GoToUniversityPage(string universityName, string facultyName, string specialityName)
     {
-        curentSpecialityInfo.UniversityName = universityName;
-        curentSpecialityInfo.FacultyName = facultyName;
-        curentSpecialityInfo.SpecialityName = specialityName;
+        currentSpecialityInfo.UniversityName = universityName;
+        currentSpecialityInfo.FacultyName = facultyName;
+        currentSpecialityInfo.SpecialityName = specialityName;
 
         NavManager.NavigateTo("/university-info");
     }

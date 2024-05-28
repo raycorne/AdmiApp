@@ -4,7 +4,7 @@
 @using AdmiApp.Core.DTO
 @using AdmiApp.Models
 
-@inject CurentSpecialityInfo curentSpecialityInfo;
+@inject CurrentSpecialityInfo curentSpecialityInfo;
 @inject IUniversityService universityService;
 
 @if (isLoaded)
@@ -51,20 +51,8 @@
     </div>
 }
 else{
-    <div class="card">
-        <div class="title">
-            Информация
-            <div class="devider">
-                <hr />
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h3>Хуй соси, губой тряси</h3>
-                </div>
-            </div>
-        </div>
+    <div class="main_container d-flex align-items-center justify-content-center gap-3">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
     </div>
 }
 
@@ -93,7 +81,7 @@ else{
         }
         else
         {
-            await App.Current.MainPage.DisplayAlert("Пошел нахуй", "Хуй соси, губой тряси", "Понял");
+            await App.Current.MainPage.DisplayAlert("Ошибка", "Ошибка при получении информации", "ОК");
 
         }
     }
